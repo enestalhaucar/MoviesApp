@@ -6,14 +6,20 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct SignUpPage: View {
-    @State private var username = ""
+    @State private var email = ""
     @State private var password = ""
     @State private var repassword = ""
+    @State private var isRegistered = false
+    
     var body: some View {
         GeometryReader { geometry in
             VStack(){
+                
+                
+                
                 RoundedRectangle(cornerRadius: 25)
                     .foregroundColor(.white)
                     .frame(width: geometry.size.width * 5 / 6, height: geometry.size.height * 6 / 12)
@@ -32,12 +38,13 @@ struct SignUpPage: View {
                             
                             Spacer()
                             VStack(spacing: 0){
-                                TextField("Enter Username",text: $username).textFieldStyle(RoundedBorderTextFieldStyle()).padding(.bottom, 0).padding(.top,10).padding(.leading, 10).padding(.trailing, 10)
+                                TextField("Enter Username",text: $email).textFieldStyle(RoundedBorderTextFieldStyle()).padding(.bottom, 0).padding(.top,10).padding(.leading, 10).padding(.trailing, 10)
                                 SecureField("Enter Password",text: $password).textFieldStyle(RoundedBorderTextFieldStyle()).padding(.bottom, 0).padding(.top,10).padding(.leading, 10).padding(.trailing, 10)
                                 SecureField("Re-Enter Password",text: $repassword).textFieldStyle(RoundedBorderTextFieldStyle()).padding(.bottom, 0).padding(.top,10).padding(.leading, 10).padding(.trailing, 10)
                             }
                             Spacer()
-                            Button("Sign In"){
+                            Button("Sign Up"){
+                                signUp()
                                 
                             }.padding(10)
                                 .background(.blue)
@@ -49,8 +56,25 @@ struct SignUpPage: View {
             }.frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(.blue)
         }
+        
+        
     }
+    func signUp() {
+        Auth.auth().createUser(withEmail: email, password: password){ (result, error) in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+            else {
+                
+                
+            }
+            
+        }
+    }
+
 }
+
+
 
 #Preview {
     SignUpPage()
